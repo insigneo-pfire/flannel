@@ -4,6 +4,7 @@ import sys
 import os.path
 import skimage.io as skio
 import numpy as np
+import pydicom
 
 from flannel.io import load_image, save_image, save_mask
 
@@ -21,9 +22,13 @@ def image_to_shirt():
     try:
         image = skio.imread(input_path, as_grey=True).astype(np.float32)
     except Exception as err:
-        print("Error: Failed to open {}".format(input_path))
-        print(err)
-        return(-1)
+        try:
+            dcm = pydicom.dcmread(input_path)
+            image = dcm.pixel_array
+        except Exception as err:
+            print("Error: Failed to open {}".format(input_path))
+            print(err)
+            return(-1)
 
     save_image(image, output_path)
 
@@ -42,9 +47,13 @@ def image_to_mask():
         image = skio.imread(input_path, as_grey=True)
         mask = np.ones(image.shape, dtype=np.int16)
     except Exception as err:
-        print("Error: Failed to open {}".format(input_path))
-        print(err)
-        return(-1)
+        try:
+            dcm = pydicom.dcmread(input_path)
+            image = dcm.pixel_array
+        except Exception as err:
+            print("Error: Failed to open {}".format(input_path))
+            print(err)
+            return(-1)
 
     save_mask(mask, output_path)
 

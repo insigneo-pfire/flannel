@@ -5,7 +5,7 @@ import numpy as np
 def save_image(im, fname):
     sizearr = np.ones(4, dtype=np.int32)
     sizearr[0:len(im.shape)] = im.shape
-    im = im.astype(np.float32).reshape(-1, order='F')
+    im = im.astype(np.float32).flatten(order='F')
     with open(fname, 'wb') as fh:
         fh.write(sizearr.tobytes())
         fh.write(im.tobytes())
@@ -23,7 +23,7 @@ def load_image(fname):
 def save_mask(im, fname):
   sizearr = np.ones(3,dtype=np.int32)
   sizearr[0:len(im.shape)] = im.shape
-  im = im.astype(np.int16).reshape(-1, order='F')
+  im = im.astype(np.int16).flatten(order='F')
   with open(fname, 'wb') as fh:
     fh.write(sizearr.tobytes())
     fh.write(im.tobytes())
