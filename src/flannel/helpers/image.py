@@ -46,16 +46,20 @@ def image_to_mask():
     try:
         image = skio.imread(input_path, as_grey=True)
         mask = np.ones(image.shape, dtype=np.int16)
+        save_mask(mask, output_path)
+        
     except Exception as err:
         try:
             dcm = pydicom.dcmread(input_path)
             image = dcm.pixel_array
+            mask = np.ones(image.shape, dtype=np.int16)
+            save_mask(mask, output_path)
         except Exception as err:
             print("Error: Failed to open {}".format(input_path))
             print(err)
             return(-1)
 
-    save_mask(mask, output_path)
+        #save_mask(mask, output_path)
 
 
 def shirt_to_image():
