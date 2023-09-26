@@ -10,7 +10,7 @@ setup(name='flannel',
       url='insigneo.org',
       package_dir={'':'src'},
       packages=find_packages('src'),
-      install_requires=['numpy', 'scikit-image'],
+      install_requires=['numpy', 'scikit-image', 'pydicom'],
       entry_points={
         'console_scripts' : [
           'shirt2image = flannel.helpers.image:shirt_to_image',
